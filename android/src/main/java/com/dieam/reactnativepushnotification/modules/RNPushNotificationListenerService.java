@@ -22,7 +22,8 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-      System.out.println("GRAB Service.onMessageReceived "+remoteMessage.toString());
+      System.out.println("GRAB FirebaseMessagingService.onMessageReceived");
+      //System.out.println("GRAB Service.onMessageReceived "+remoteMessage.toString());
         // JSONObject data = getPushData(bundle.getString("data"));
         // if (data != null) {
         //     if (!bundle.containsKey("message")) {
@@ -32,19 +33,19 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
         //         bundle.putString("title", data.optString("title", null));
         //     }
         // }
-        System.out.println("GRAB From: " + remoteMessage.getFrom());
+        // System.out.println("GRAB From: " + remoteMessage.getFrom());
 
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            System.out.println("GRAB Message data payload: " + remoteMessage.getData());
-        }
+        // // Check if message contains a data payload.
+        // if (remoteMessage.getData().size() > 0) {
+        //     System.out.println("GRAB Message data payload: " + remoteMessage.getData());
+        // }
 
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            System.out.println("GRAB Message Notification Body: " + remoteMessage.getNotification().getBody());
-        }
-        Bundle bundle = new Bundle();
-        sendNotification(bundle);
+        // // Check if message contains a notification payload.
+        // if (remoteMessage.getNotification() != null) {
+        //     System.out.println("GRAB Message Notification Body: " + remoteMessage.getNotification().getBody());
+        // }
+        // Bundle bundle = new Bundle();
+        // sendNotification(bundle);
     }
 
     private JSONObject getPushData(String dataString) {

@@ -133,10 +133,9 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void requestPermissions(String senderID) {
-        Intent GCMService = new Intent(mReactContext, RNPushNotificationRegistrationService.class);
-
-        GCMService.putExtra("senderID", senderID);
-        mReactContext.startService(GCMService);
+      if (!RNPushNotificationRegistrationService.s_token.equalsIgnoreCase("")) {
+          RNPushNotificationRegistrationService.s_instance.sendRegistrationToken(RNPushNotificationRegistrationService.s_token);
+      }
     }
 
     @ReactMethod
