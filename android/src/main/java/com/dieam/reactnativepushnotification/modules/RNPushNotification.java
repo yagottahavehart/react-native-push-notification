@@ -106,12 +106,8 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
     }
 
     private void notifyNotification(Bundle bundle) {
-        String bundleString = convertJSON(bundle);
-        System.out.println("GRAB notifyNotification "+bundleString);
-        WritableMap params = Arguments.createMap();
-        params.putString("dataJSON", bundleString);
-
-        sendEvent("remoteNotificationReceived", params);
+        System.out.println("GRAB notifyNotification "+bundle.toString());
+        mRNPushNotificationHelper.sendNotification(bundle);
     }
 
     private String convertJSON(Bundle bundle) {

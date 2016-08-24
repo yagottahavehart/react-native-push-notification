@@ -6,6 +6,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -22,30 +23,37 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-      System.out.println("GRAB FirebaseMessagingService.onMessageReceived");
-      //System.out.println("GRAB Service.onMessageReceived "+remoteMessage.toString());
-        // JSONObject data = getPushData(bundle.getString("data"));
-        // if (data != null) {
-        //     if (!bundle.containsKey("message")) {
-        //         bundle.putString("message", data.optString("alert", "Notification received"));
-        //     }
-        //     if (!bundle.containsKey("title")) {
-        //         bundle.putString("title", data.optString("title", null));
-        //     }
-        // }
-        // System.out.println("GRAB From: " + remoteMessage.getFrom());
+        System.out.println("GRAB FirebaseMessagingService.onMessageReceived");
+        Bundle bundle = new Bundle();
+        try {
+          Map<String, String> message = remoteMessage.getData();
+          // Check if message contains a data payload.
+          if (message.size() > 0) {
+              System.out.println("GRAB Message: " + message);
+              /*{
+                payload={
+                  "metas":[{"type":"campaignLaunched"}],
+                  "timeline_uuid":"e9f2f2d3-8f71-4824-8ca4-b9a2e4a5812e",
+                  "account_id":"18ce53vw9tp",
+                  "entity_type":"campaign",
+                  "lineitem_tweet_id":null,
+                  "lineitem_id":null,
+                  "funding_instrument_id":null,"campaign_id":"5t1bd"
+                },
+                body=Campaign norif 7 has launched.,
+                icon=ic_notification,
+                title=Flightly
+              }*/
+              bundle.putString("title", (String)message.get("title"));
+              bundle.putString("message", (String)message.get("body"));
+              bundle.putString("data", (String)message.get("payload"));
+          }
+        } catch (Exception e) {
+          System.out.println("GRAB "+e.toString());
+        }
 
-        // // Check if message contains a data payload.
-        // if (remoteMessage.getData().size() > 0) {
-        //     System.out.println("GRAB Message data payload: " + remoteMessage.getData());
-        // }
 
-        // // Check if message contains a notification payload.
-        // if (remoteMessage.getNotification() != null) {
-        //     System.out.println("GRAB Message Notification Body: " + remoteMessage.getNotification().getBody());
-        // }
-        // Bundle bundle = new Bundle();
-        // sendNotification(bundle);
+        sendNotification(bundle);
     }
 
     private JSONObject getPushData(String dataString) {
@@ -57,7 +65,7 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
     }
 
     private void sendNotification(Bundle bundle) {
-
+System.out.println("GRAB sendNotification"+bundle.toString());
         Boolean isRunning = isApplicationRunning();
 
         Intent intent = new Intent("RNPushNotificationReceiveNotification");

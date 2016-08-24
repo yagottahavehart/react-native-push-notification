@@ -205,7 +205,7 @@ public class RNPushNotificationHelper {
         info.defaults |= Notification.DEFAULT_VIBRATE;
         info.defaults |= Notification.DEFAULT_SOUND;
         info.defaults |= Notification.DEFAULT_LIGHTS;
-
+System.out.println("GRAB sending notification"+info);
         notificationManager.notify(notificationID, info);
     }
 
