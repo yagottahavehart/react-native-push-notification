@@ -1,5 +1,8 @@
 package com.dieam.reactnativepushnotification;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import com.dieam.reactnativepushnotification.modules.RNPushNotification;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -7,24 +10,42 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ReactNativePushNotificationPackage implements ReactPackage {
+    Activity mActivity;
+    RNPushNotification mRNPushNotification;
+
+    public ReactNativePushNotificationPackage(Activity activity) {
+        mActivity = activity;
+    }
+
     @Override
     public List<NativeModule> createNativeModules(
             ReactApplicationContext reactContext) {
-        return Collections.<NativeModule>singletonList(new RNPushNotification(reactContext));
+        List<NativeModule> modules = new ArrayList<>();
+
+        mRNPushNotification = new RNPushNotification(reactContext, mActivity);
+
+        modules.add(mRNPushNotification);
+        return modules;
     }
 
     @Override
     public List<Class<? extends JavaScriptModule>> createJSModules() {
-        return Collections.emptyList();
+        return Arrays.asList();
     }
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        return new ArrayList<>();
+    }
+
+    public void newIntent(Intent intent) {
+        if(mRNPushNotification == null){ return; }
+        mRNPushNotification.newIntent(intent);
     }
 }
 

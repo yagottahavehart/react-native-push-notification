@@ -1,6 +1,6 @@
 {
   "name": "react-native-push-notification",
-  "version": "2.0.2",
+  "version": "1.0.8",
   "description": "React Native Local and Remote Notifications",
   "main": "index",
   "scripts": {
@@ -21,16 +21,46 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:zo0r/react-native-push-notification.git"
+    "url": "git+ssh://git@github.com/zo0r/react-native-push-notification.git"
   },
   "peerDependencies": {
-    "react-native": ">=0.30"
+    "react-native": ">=0.16"
   },
   "rnpm": {
     "android": {
-      "packageInstance": "new ReactNativePushNotificationPackage()"
+      "packageInstance": "new ReactNativePushNotificationPackage(this)"
     }
   },
-  "author": "zo0r <http://zo0r.me>",
-  "license": "MIT"
+  "author": {
+    "name": "zo0r",
+    "email": "http://zo0r.me"
+  },
+  "license": "MIT",
+  "gitHead": "2eafd1961273ca6a82ad4dd6514fbf1d1a829089",
+  "homepage": "https://github.com/zo0r/react-native-push-notification#readme",
+  "_id": "react-native-push-notification@1.0.8",
+  "_shasum": "89c71302cc4520c55b2766ab9c5589ab7cea02c3",
+  "_from": "react-native-push-notification@1.0.8",
+  "_npmVersion": "3.8.6",
+  "_nodeVersion": "5.0.0",
+  "_npmUser": {
+    "name": "zo0r",
+    "email": "z@zo0r.me"
+  },
+  "dist": {
+    "shasum": "89c71302cc4520c55b2766ab9c5589ab7cea02c3",
+    "tarball": "https://registry.npmjs.org/react-native-push-notification/-/react-native-push-notification-1.0.8.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "zo0r",
+      "email": "z@zo0r.me"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/react-native-push-notification-1.0.8.tgz_1466694868861_0.08371045324020088"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/react-native-push-notification/-/react-native-push-notification-1.0.8.tgz"
 }

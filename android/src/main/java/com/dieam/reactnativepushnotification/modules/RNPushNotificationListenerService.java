@@ -7,24 +7,43 @@ import android.app.ActivityManager.RunningAppProcessInfo;
 
 import java.util.List;
 
-import com.google.android.gms.gcm.GcmListenerService;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
 
-public class RNPushNotificationListenerService extends GcmListenerService {
+public class RNPushNotificationListenerService extends FirebaseMessagingService {
+    private static final String TAG = "RNPushNotification";
+
+    public RNPushNotificationListenerService() {
+      super();
+      System.out.println("GRAB Starting FirebaseMessagingService");
+    }
 
     @Override
-    public void onMessageReceived(String from, Bundle bundle) {
-        JSONObject data = getPushData(bundle.getString("data"));
-        if (data != null) {
-            if (!bundle.containsKey("message")) {
-                bundle.putString("message", data.optString("alert", "Notification received"));
-            }
-            if (!bundle.containsKey("title")) {
-                bundle.putString("title", data.optString("title", null));
-            }
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+      System.out.println("GRAB Service.onMessageReceived "+remoteMessage.toString());
+        // JSONObject data = getPushData(bundle.getString("data"));
+        // if (data != null) {
+        //     if (!bundle.containsKey("message")) {
+        //         bundle.putString("message", data.optString("alert", "Notification received"));
+        //     }
+        //     if (!bundle.containsKey("title")) {
+        //         bundle.putString("title", data.optString("title", null));
+        //     }
+        // }
+        System.out.println("GRAB From: " + remoteMessage.getFrom());
+
+        // Check if message contains a data payload.
+        if (remoteMessage.getData().size() > 0) {
+            System.out.println("GRAB Message data payload: " + remoteMessage.getData());
         }
 
+        // Check if message contains a notification payload.
+        if (remoteMessage.getNotification() != null) {
+            System.out.println("GRAB Message Notification Body: " + remoteMessage.getNotification().getBody());
+        }
+        Bundle bundle = new Bundle();
         sendNotification(bundle);
     }
 
@@ -42,12 +61,11 @@ public class RNPushNotificationListenerService extends GcmListenerService {
 
         Intent intent = new Intent("RNPushNotificationReceiveNotification");
         bundle.putBoolean("foreground", isRunning);
-        bundle.putBoolean("userInteraction", false);
         intent.putExtra("notification", bundle);
         sendBroadcast(intent);
 
         if (!isRunning) {
-            new RNPushNotificationHelper(getApplication()).sendNotification(bundle);
+            new RNPushNotificationHelper(getApplication(), this).sendNotification(bundle);
         }
     }
 
@@ -57,7 +75,7 @@ public class RNPushNotificationListenerService extends GcmListenerService {
         for (ActivityManager.RunningAppProcessInfo processInfo : processInfos) {
             if (processInfo.processName.equals(getApplication().getPackageName())) {
                 if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                    for (String d : processInfo.pkgList) {
+                    for (String d: processInfo.pkgList) {
                         return true;
                     }
                 }
