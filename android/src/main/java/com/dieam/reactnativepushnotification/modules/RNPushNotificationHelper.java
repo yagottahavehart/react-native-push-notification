@@ -168,9 +168,9 @@ public class RNPushNotificationHelper {
 
         notification.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
 
-        Intent intent = new Intent(mContext, intentClass);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("notification", bundle);
+        Intent deeplinkIntent = new Intent(Intent.ACTION_VIEW);
+        String deeplinkURL = "blackbird://deeplink?data="+bundle.getString("data");
+        deeplinkIntent.setData(Uri.parse(deeplinkURL));
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notification.setSound(defaultSoundUri);
@@ -193,7 +193,7 @@ public class RNPushNotificationHelper {
             notificationID = (int) System.currentTimeMillis();
         }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, notificationID, intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, notificationID, deeplinkIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationManager notificationManager =
