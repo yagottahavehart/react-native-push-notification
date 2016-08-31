@@ -74,7 +74,7 @@ System.out.println("GRAB sendNotification"+bundle.toString());
         sendBroadcast(intent);
 
         if (!isRunning) {
-            new RNPushNotificationHelper(getApplication(), this).sendNotification(bundle);
+            new RNPushNotificationHelper(getApplication()).sendNotification(bundle);
         }
     }
 
