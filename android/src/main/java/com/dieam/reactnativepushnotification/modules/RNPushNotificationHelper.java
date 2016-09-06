@@ -110,8 +110,8 @@ public class RNPushNotificationHelper {
         s_notifMap.put(bundleStr, bundle);
 
 System.out.println("GRAB Helper.sendNotification "+bundleStr);
-        Resources res = mApplication.getResources();
-        String packageName = mApplication.getPackageName();
+        Resources res = mContext.getResources();
+        String packageName = mContext.getPackageName();
 
         String title = bundle.getString("title");
         if (title == null) {
