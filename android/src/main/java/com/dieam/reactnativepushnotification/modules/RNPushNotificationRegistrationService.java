@@ -25,7 +25,7 @@ public class RNPushNotificationRegistrationService extends FirebaseInstanceIdSer
     public void sendRegistrationToken(String token) {
         Intent intent = new Intent("RNPushNotificationRegisteredToken");
         intent.putExtra("token", token);
-        System.out.println("GRAB sendRegistrationToken "+intent.toString());
+        //System.out.println("GRAB sendRegistrationToken "+intent.toString());
         sendBroadcast(intent);
     }
 

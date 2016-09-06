@@ -20,8 +20,11 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.util.HashMap;
+
 public class RNPushNotificationHelper {
     private Context mContext;
+    private static HashMap<String, Bundle> s_notifMap = new HashMap<String, Bundle>();
 
     public RNPushNotificationHelper(Application context) {
         mContext = context;
@@ -84,8 +87,8 @@ public class RNPushNotificationHelper {
     }
 
     public void sendNotification(Bundle bundle) {
-        System.out.println("GRAB Helper.sendNotification "+bundle.toString());
         Class intentClass = getMainActivityClass();
+
         if (intentClass == null) {
             return;
         }
@@ -94,8 +97,21 @@ public class RNPushNotificationHelper {
             return;
         }
 
-        Resources res = mContext.getResources();
-        String packageName = mContext.getPackageName();
+        if (bundle.getString("data") == null) {
+            return;
+        }
+
+         String bundleStr = bundle.getString("data");
+        //disallow duplicates
+        if (s_notifMap.get(bundleStr) != null) {
+          return;
+        }
+
+        s_notifMap.put(bundleStr, bundle);
+
+System.out.println("GRAB Helper.sendNotification "+bundleStr);
+        Resources res = mApplication.getResources();
+        String packageName = mApplication.getPackageName();
 
         String title = bundle.getString("title");
         if (title == null) {
@@ -203,7 +219,7 @@ public class RNPushNotificationHelper {
         info.defaults |= Notification.DEFAULT_VIBRATE;
         info.defaults |= Notification.DEFAULT_SOUND;
         info.defaults |= Notification.DEFAULT_LIGHTS;
-System.out.println("GRAB sending notification"+info);
+
         notificationManager.notify(notificationID, info);
     }
 

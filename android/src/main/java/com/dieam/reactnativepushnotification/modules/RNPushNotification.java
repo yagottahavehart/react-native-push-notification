@@ -60,7 +60,7 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
     }
 
     private void sendEvent(String eventName, Object params) {
-        System.out.println("GRAB sendEvent "+eventName+" "+params.toString());
+        //System.out.println("GRAB sendEvent "+eventName+" "+params.toString());
         if ( mReactContext.hasActiveCatalystInstance() ) {
             mReactContext
                     .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
@@ -69,7 +69,7 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
     }
 
     public void newIntent(Intent intent) {
-        System.out.println("GRAB newIntent "+intent.toString());
+        //System.out.println("GRAB newIntent "+intent.toString());
         if ( intent.hasExtra("notification") ) {
             Bundle bundle = intent.getBundleExtra("notification");
             bundle.putBoolean("foreground", false);
@@ -84,7 +84,7 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
         mReactContext.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                System.out.println("GRAB registration onReceive "+intent.toString());
+                //System.out.println("GRAB registration onReceive "+intent.toString());
                 String token = intent.getStringExtra("token");
                 WritableMap params = Arguments.createMap();
                 params.putString("deviceToken", token);
@@ -99,14 +99,15 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
         mReactContext.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-              System.out.println("GRAB notification onReceive "+intent.toString());
+              //System.out.println("GRAB notification onReceive "+intent.toString());
                 notifyNotification(intent.getBundleExtra("notification"));
             }
         }, intentFilter);
     }
 
     private void notifyNotification(Bundle bundle) {
-        System.out.println("GRAB notifyNotification "+bundle.toString());
+      //This is the case when app is open
+        //System.out.println("GRAB RNPushNotification.notifyNotification "+bundle.toString());
         mRNPushNotificationHelper.sendNotification(bundle);
     }
 

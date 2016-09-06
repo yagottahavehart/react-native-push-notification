@@ -18,7 +18,7 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
 
     public RNPushNotificationListenerService() {
       super();
-      System.out.println("GRAB Starting FirebaseMessagingService");
+      //System.out.println("GRAB Starting FirebaseMessagingService");
     }
 
     @Override
@@ -29,7 +29,7 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
           Map<String, String> message = remoteMessage.getData();
           // Check if message contains a data payload.
           if (message.size() > 0) {
-              System.out.println("GRAB Message: " + message);
+              //System.out.println("GRAB Message: " + message);
               /*{
                 payload={
                   "metas":[{"type":"campaignLaunched"}],
@@ -65,7 +65,7 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
     }
 
     private void sendNotification(Bundle bundle) {
-System.out.println("GRAB sendNotification"+bundle.toString());
+//System.out.println("GRAB sendNotification"+bundle.toString());
         Boolean isRunning = isApplicationRunning();
 
         Intent intent = new Intent("RNPushNotificationReceiveNotification");
