@@ -23,12 +23,10 @@ import android.util.Log;
 import java.util.HashMap;
 
 public class RNPushNotificationHelper {
-    private Application mApplication;
     private Context mContext;
     private static HashMap<String, Bundle> s_notifMap = new HashMap<String, Bundle>();
 
-    public RNPushNotificationHelper(Application application, Context context) {
-        mApplication = application;
+    public RNPushNotificationHelper(Application context) {
         mContext = context;
     }
 
@@ -45,7 +43,7 @@ public class RNPushNotificationHelper {
     }
 
     private AlarmManager getAlarmManager() {
-        return (AlarmManager) mApplication.getSystemService(Context.ALARM_SERVICE);
+        return (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
     }
 
     private PendingIntent getScheduleNotificationIntent(Bundle bundle) {
@@ -58,11 +56,11 @@ public class RNPushNotificationHelper {
             notificationID = (int) System.currentTimeMillis();
         }
 
-        Intent notificationIntent = new Intent(mApplication, RNPushNotificationPublisher.class);
+        Intent notificationIntent = new Intent(mContext, RNPushNotificationPublisher.class);
         notificationIntent.putExtra(RNPushNotificationPublisher.NOTIFICATION_ID, notificationID);
         notificationIntent.putExtras(bundle);
 
-        return PendingIntent.getBroadcast(mApplication, notificationID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(mContext, notificationID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public void sendNotificationScheduled(Bundle bundle) {
@@ -112,8 +110,8 @@ public class RNPushNotificationHelper {
         s_notifMap.put(bundleStr, bundle);
 
 System.out.println("GRAB Helper.sendNotification "+bundleStr);
-        Resources res = mApplication.getResources();
-        String packageName = mApplication.getPackageName();
+        Resources res = mContext.getResources();
+        String packageName = mContext.getPackageName();
 
         String title = bundle.getString("title");
         if (title == null) {

@@ -74,7 +74,7 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
         sendBroadcast(intent);
 
         if (!isRunning) {
-            new RNPushNotificationHelper(getApplication(), this).sendNotification(bundle);
+            new RNPushNotificationHelper(getApplication()).sendNotification(bundle);
         }
     }
 
