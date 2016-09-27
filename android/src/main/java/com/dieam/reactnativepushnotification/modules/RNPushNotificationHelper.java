@@ -19,12 +19,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Vector;
 
 public class RNPushNotificationHelper {
     private Context mContext;
     private static HashMap<String, Bundle> s_notifMap = new HashMap<String, Bundle>();
+    private static HashMap<String, Vector<String> > s_groupMap = new HashMap<String, Vector<String> >();
 
     public RNPushNotificationHelper(Application context) {
         mContext = context;
@@ -88,28 +91,29 @@ public class RNPushNotificationHelper {
 
     public void sendNotification(Bundle bundle) {
         Class intentClass = getMainActivityClass();
+        String dataStr = bundle.getString("data");
+        String msgStr = bundle.getString("message");
 
         if (intentClass == null) {
             return;
         }
 
-        if (bundle.getString("message") == null) {
+        if (msgStr == null) {
             return;
         }
 
-        if (bundle.getString("data") == null) {
+        if (dataStr == null) {
             return;
         }
 
-         String bundleStr = bundle.getString("data");
         //disallow duplicates
-        if (s_notifMap.get(bundleStr) != null) {
+        if (s_notifMap.get(dataStr) != null) {
           return;
         }
 
-        s_notifMap.put(bundleStr, bundle);
+        s_notifMap.put(dataStr, bundle);
 
-System.out.println("GRAB Helper.sendNotification "+bundleStr);
+System.out.println("GRAB Helper.sendNotification "+dataStr);
         Resources res = mContext.getResources();
         String packageName = mContext.getPackageName();
 
@@ -119,14 +123,55 @@ System.out.println("GRAB Helper.sendNotification "+bundleStr);
             title = mContext.getPackageManager().getApplicationLabel(appInfo).toString();
         }
 
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(mContext)
-                .setContentTitle(title)
-                .setTicker(bundle.getString("ticker"))
-                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(bundle.getBoolean("autoCancel", true));
+        //find group based on account or campaign id;
+        JSONObject dataObj;
+        String groupStr = "";
+        String campaignString = "";
 
-        notification.setContentText(bundle.getString("message"));
+        try {
+          dataObj = new JSONObject(dataStr);
+          groupStr = dataObj.getString("account_id");
+System.out.println("GRAB account id "+groupStr);
+          campaignString = dataObj.getString("campaign_id");
+System.out.println("GRAB campaign id "+campaignString);
+          if (!campaignString.equalsIgnoreCase("null")) {
+            groupStr = campaignString;
+          }
+        } catch (Exception e) {
+
+        }
+
+        Vector<String> groupMsgs = s_groupMap.get(groupStr);
+        if (groupMsgs == null) {
+          groupMsgs = new Vector<String>();
+        }
+        groupMsgs.add(msgStr);
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(mContext)
+                  .setContentTitle(title)
+                  .setTicker(bundle.getString("ticker"))
+                  .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+                  .setPriority(NotificationCompat.PRIORITY_HIGH)
+                  .setAutoCancel(bundle.getBoolean("autoCancel", true))
+                  .setGroup(groupStr);
+
+System.out.println("GRAB "+groupMsgs.size()+" messages for group "+groupStr);
+        if (groupMsgs.size() == 1) {
+          notification.setContentText(msgStr);
+        } else {
+          notification.setContentText("You have "+groupMsgs.size()+" new messages.");
+          NotificationCompat.InboxStyle ibs = new NotificationCompat.InboxStyle();
+
+          for (int i = 0; i < groupMsgs.size(); ++i) {
+            ibs = ibs.addLine(groupMsgs.elementAt(i));
+          }
+
+          //ibs = ibs.setSummaryText("You have "+groupMsgs.size()+" new messages.");
+          notification.setStyle(ibs)
+            .setGroup(groupStr)
+            .setGroupSummary(true);
+        }
+
+        s_groupMap.put(groupStr, groupMsgs);
 
         String largeIcon = bundle.getString("largeIcon");
 
@@ -136,11 +181,11 @@ System.out.println("GRAB Helper.sendNotification "+bundleStr);
             notification.setSubText(subText);
         }
 
-        String number = bundle.getString("number");
+        //String number = bundle.getString("number");
 
-        if ( number != null ) {
-            notification.setNumber(Integer.parseInt(number));
-        }
+        //if ( number != null ) {
+            //notification.setNumber(++ s_numMessages);//  Integer.parseInt(number));
+        //}
 
         int smallIconResId;
         int largeIconResId;
@@ -180,10 +225,12 @@ System.out.println("GRAB Helper.sendNotification "+bundleStr);
             bigText = bundle.getString("message");
         }
 
-        notification.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
+        if (groupMsgs.size() == 1) {
+          notification.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
+        }
 
         Intent deeplinkIntent = new Intent(Intent.ACTION_VIEW);
-        String deeplinkURL = "blackbird://deeplink?data="+bundle.getString("data");
+        String deeplinkURL = "blackbird://deeplink?data="+dataStr;
         deeplinkIntent.setData(Uri.parse(deeplinkURL));
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -198,7 +245,8 @@ System.out.println("GRAB Helper.sendNotification "+bundleStr);
             }
         }
 
-        int notificationID;
+        int notificationID = 1;
+        //TODO use campaign or account ID to stack notifications more cleverly
         String notificationIDString = bundle.getString("id");
 
         if ( notificationIDString != null ) {
