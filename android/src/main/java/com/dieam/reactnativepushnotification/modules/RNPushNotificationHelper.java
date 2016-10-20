@@ -20,14 +20,15 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import org.json.JSONObject;
-
+import org.json.JSONArray;
 import java.util.HashMap;
 import java.util.Vector;
 
 public class RNPushNotificationHelper {
     private Context mContext;
     private static HashMap<String, Bundle> s_notifMap = new HashMap<String, Bundle>();
-    private static HashMap<String, Vector<String> > s_groupMap = new HashMap<String, Vector<String> >();
+    private static HashMap<String, JSONObject> s_groupMap = new HashMap<String, JSONObject>();
+    private static int s_id = 0;
 
     public RNPushNotificationHelper(Application context) {
         mContext = context;
@@ -122,57 +123,76 @@ System.out.println("GRAB Helper.sendNotification "+dataStr);
             ApplicationInfo appInfo = mContext.getApplicationInfo();
             title = mContext.getPackageManager().getApplicationLabel(appInfo).toString();
         }
-
         //find group based on account or campaign id;
-        JSONObject dataObj;
+        JSONObject dataObj = new JSONObject();
+        JSONArray groupMsgs = null;
         String groupStr = "";
         String campaignString = "";
+        int notificationID = 0;
+        NotificationManager notificationManager =
+          (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder notification = null;
 
         try {
           dataObj = new JSONObject(dataStr);
           groupStr = dataObj.getString("account_id");
 System.out.println("GRAB account id "+groupStr);
-          campaignString = dataObj.getString("campaign_id");
-System.out.println("GRAB campaign id "+campaignString);
-          if (!campaignString.equalsIgnoreCase("null")) {
-            groupStr = campaignString;
+
+          JSONObject groupObj = s_groupMap.get(groupStr);
+
+          if (groupObj == null) {
+            groupObj = new JSONObject();
+            groupObj.put("id", s_id++);
           }
+
+          groupMsgs = groupObj.optJSONArray("messages");
+
+          if (groupMsgs == null) {
+            groupMsgs = new JSONArray();
+          }
+
+          groupMsgs.put(msgStr);
+          groupObj.put("messages", groupMsgs);
+
+          notification = new NotificationCompat.Builder(mContext)
+                    .setContentTitle(title)
+                    .setTicker(bundle.getString("ticker"))
+                    .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(bundle.getBoolean("autoCancel", true))
+                    .setGroup(groupStr);
+
+          notificationID = groupObj.getInt("id");
+
+
+  System.out.println("GRAB "+groupMsgs.length()+" messages for group "+groupStr+" with id "+notificationID);
+          if (groupMsgs.length() == 1) {
+            notification.setContentText(msgStr);
+          } else {
+            //cancel the previous notification with this id and create a new one
+            notificationManager.cancel(notificationID);
+            notification.setContentText("You have "+groupMsgs.length()+" new messages.");
+            NotificationCompat.InboxStyle ibs = new NotificationCompat.InboxStyle();
+
+            for (int i = 0; i < groupMsgs.length(); ++i) {
+              ibs = ibs.addLine(groupMsgs.getString(i));
+            }
+
+            notification.setStyle(ibs)
+              .setGroup(groupStr)
+              .setGroupSummary(true);
+              //need to modify data so that deeplink goes to account, not campaign
+
+                dataObj.put("campaign_id", null);
+                dataStr = dataObj.toString();
+
+  System.out.println("GRAB stacked with deeplink "+dataStr);
+          }
+
+          s_groupMap.put(groupStr, groupObj);
         } catch (Exception e) {
-
+  System.out.println("GRAB error "+e.toString());
         }
-
-        Vector<String> groupMsgs = s_groupMap.get(groupStr);
-        if (groupMsgs == null) {
-          groupMsgs = new Vector<String>();
-        }
-        groupMsgs.add(msgStr);
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(mContext)
-                  .setContentTitle(title)
-                  .setTicker(bundle.getString("ticker"))
-                  .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
-                  .setPriority(NotificationCompat.PRIORITY_HIGH)
-                  .setAutoCancel(bundle.getBoolean("autoCancel", true))
-                  .setGroup(groupStr);
-
-System.out.println("GRAB "+groupMsgs.size()+" messages for group "+groupStr);
-        if (groupMsgs.size() == 1) {
-          notification.setContentText(msgStr);
-        } else {
-          notification.setContentText("You have "+groupMsgs.size()+" new messages.");
-          NotificationCompat.InboxStyle ibs = new NotificationCompat.InboxStyle();
-
-          for (int i = 0; i < groupMsgs.size(); ++i) {
-            ibs = ibs.addLine(groupMsgs.elementAt(i));
-          }
-
-          //ibs = ibs.setSummaryText("You have "+groupMsgs.size()+" new messages.");
-          notification.setStyle(ibs)
-            .setGroup(groupStr)
-            .setGroupSummary(true);
-        }
-
-        s_groupMap.put(groupStr, groupMsgs);
-
         String largeIcon = bundle.getString("largeIcon");
 
         String subText = bundle.getString("subText");
@@ -225,7 +245,7 @@ System.out.println("GRAB "+groupMsgs.size()+" messages for group "+groupStr);
             bigText = bundle.getString("message");
         }
 
-        if (groupMsgs.size() == 1) {
+        if (groupMsgs.length() == 1) {
           notification.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
         }
 
@@ -245,21 +265,8 @@ System.out.println("GRAB "+groupMsgs.size()+" messages for group "+groupStr);
             }
         }
 
-        int notificationID = 1;
-        //TODO use campaign or account ID to stack notifications more cleverly
-        String notificationIDString = bundle.getString("id");
-
-        if ( notificationIDString != null ) {
-            notificationID = Integer.parseInt(notificationIDString);
-        } else {
-            notificationID = (int) System.currentTimeMillis();
-        }
-
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, notificationID, deeplinkIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationManager notificationManager =
-                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         notification.setContentIntent(pendingIntent);
 
