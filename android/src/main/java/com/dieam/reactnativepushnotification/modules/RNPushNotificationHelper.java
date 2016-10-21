@@ -34,6 +34,10 @@ public class RNPushNotificationHelper {
         mContext = context;
     }
 
+    public static void clearNotificationStack(String adAccountId) {
+      s_groupMap.put(adAccountId, new JSONObject());
+    }
+
     public Class getMainActivityClass() {
       String packageName = mContext.getPackageName();
       Intent launchIntent = mContext.getPackageManager().getLaunchIntentForPackage(packageName);
@@ -170,7 +174,7 @@ System.out.println("GRAB account id "+groupStr);
             notification.setContentText(msgStr);
           } else {
             //cancel the previous notification with this id and create a new one
-            notificationManager.cancel(notificationID);
+            //notificationManager.cancel(notificationID);
             notification.setContentText("You have "+groupMsgs.length()+" new messages.");
             NotificationCompat.InboxStyle ibs = new NotificationCompat.InboxStyle();
 
