@@ -163,8 +163,8 @@ System.out.println("GRAB account id "+groupStr);
                     .setTicker(bundle.getString("ticker"))
                     .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setAutoCancel(bundle.getBoolean("autoCancel", true))
-                    .setGroup(groupStr);
+                    .setAutoCancel(bundle.getBoolean("autoCancel", true));
+                    //.setGroup(groupStr);
 
           notificationID = groupObj.getInt("id");
 
@@ -238,9 +238,9 @@ System.out.println("GRAB account id "+groupStr);
 
         Bitmap largeIconBitmap = BitmapFactory.decodeResource(res, largeIconResId);
 
-        //if ( largeIconResId != 0 && ( largeIcon != null || android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ) ) {
+        if ( largeIconResId != 0 && ( largeIcon != null || android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ) ) {
             notification.setLargeIcon(largeIconBitmap);
-        //}
+        }
 
         notification.setSmallIcon(smallIconResId);
         String bigText = bundle.getString("bigText");
