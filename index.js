@@ -88,7 +88,7 @@ Notifications.configure = function(options: Object) {
   }
 
   if ( options.requestPermissions !== false ) {
-    this.requestPermissions();
+    this.requestPermissions('');
   }
 
 };
@@ -188,7 +188,7 @@ Notifications._onNotification = function(data, isFromBackground = null) {
 Notifications.requestPermissions = function(androidToken) {
   if ( Platform.OS === 'ios' ) {
     return this.callNative( 'requestPermissions', [ this.permissions ]);
-  } else if ( typeof this.senderID !== 'undefined' ) {
+  } else {
     return this.callNative( 'requestPermissions', [ androidToken ]);
   }
 };

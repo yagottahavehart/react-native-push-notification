@@ -9,7 +9,7 @@ import android.content.Intent;
 
 public class RNPushNotificationRegistrationService extends FirebaseInstanceIdService {
     public static String s_token = "";
-    public static RNPushNotificationRegistrationService s_instance;
+    public static RNPushNotificationRegistrationService s_instance = null;
     //private static final String TAG = "RNPushNotification";
 
     public RNPushNotificationRegistrationService() {

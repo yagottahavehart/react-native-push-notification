@@ -23,6 +23,7 @@ import java.util.Set;
 import org.json.*;
 
 import android.content.Context;
+import com.localytics.android.Localytics;
 
 public class RNPushNotification extends ReactContextBaseJavaModule {
     private ReactContext mReactContext;
@@ -69,7 +70,7 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
     }
 
     public void newIntent(Intent intent) {
-        //System.out.println("GRAB newIntent "+intent.toString());
+        System.out.println("GRAB newIntent "+intent.toString());
         if ( intent.hasExtra("notification") ) {
             Bundle bundle = intent.getBundleExtra("notification");
             bundle.putBoolean("foreground", false);
@@ -99,7 +100,7 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
         mReactContext.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-              //System.out.println("GRAB notification onReceive "+intent.toString());
+              System.out.println("GRAB notification onReceive "+intent.toString());
                 notifyNotification(intent.getBundleExtra("notification"));
             }
         }, intentFilter);
@@ -107,7 +108,7 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
 
     private void notifyNotification(Bundle bundle) {
       //This is the case when app is open
-        //System.out.println("GRAB RNPushNotification.notifyNotification "+bundle.toString());
+        System.out.println("GRAB RNPushNotification.notifyNotification "+bundle.toString());
         mRNPushNotificationHelper.sendNotification(bundle);
     }
 
@@ -132,12 +133,11 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
     public void requestPermissions(String token) {
       boolean validToken = token != null && !token.equalsIgnoreCase("");
 
-      if (!RNPushNotificationRegistrationService.s_token.equalsIgnoreCase("") || validToken) {
-          if (!validToken) {
-            token = RNPushNotificationRegistrationService.s_token;
-          }
-
-          RNPushNotificationRegistrationService.s_instance.sendRegistrationToken(token);
+      if (!RNPushNotificationRegistrationService.s_token.equalsIgnoreCase("")
+        &&  RNPushNotificationRegistrationService.s_instance != null) {
+          RNPushNotificationRegistrationService.s_instance.sendRegistrationToken(RNPushNotificationRegistrationService.s_token);
+      } else if (validToken) {
+        Localytics.setPushRegistrationId(token);
       }
     }
 
