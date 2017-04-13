@@ -8,6 +8,8 @@ import android.app.ActivityManager.RunningAppProcessInfo;
 import java.util.List;
 import java.util.Map;
 
+import com.localytics.android.Localytics;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -21,6 +23,20 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
       //System.out.println("GRAB Starting FirebaseMessagingService");
     }
 
+    private Bundle convertMap(Map<String, String> map)
+    {
+      Bundle bundle = new Bundle(map != null ? map.size() : 0);
+      if (map != null)
+      {
+        for (Map.Entry<String, String> entry : map.entrySet())
+        {
+          bundle.putString(entry.getKey(), entry.getValue());
+        }
+      }
+
+      return bundle;
+    }
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         System.out.println("GRAB FirebaseMessagingService.onMessageReceived");
@@ -28,25 +44,31 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
         try {
           Map<String, String> message = remoteMessage.getData();
           // Check if message contains a data payload.
-          if (message.size() > 0) {
-              //System.out.println("GRAB Message: " + message);
-              /*{
-                payload={
-                  "metas":[{"type":"campaignLaunched"}],
-                  "timeline_uuid":"e9f2f2d3-8f71-4824-8ca4-b9a2e4a5812e",
-                  "account_id":"18ce53vw9tp",
-                  "entity_type":"campaign",
-                  "lineitem_tweet_id":null,
-                  "lineitem_id":null,
-                  "funding_instrument_id":null,"campaign_id":"5t1bd"
-                },
-                body=Campaign norif 7 has launched.,
-                icon=ic_notification,
-                title=Flightly
-              }*/
-              bundle.putString("title", (String)message.get("title"));
-              bundle.putString("message", (String)message.get("body"));
-              bundle.putString("data", (String)message.get("payload"));
+          if (message != null) {
+            if (message.containsKey("ll"))
+            {
+              Localytics.displayPushNotification(convertMap(message));
+            }
+            else {
+                //System.out.println("GRAB Message: " + message);
+                /*{
+                  payload={
+                    "metas":[{"type":"campaignLaunched"}],
+                    "timeline_uuid":"e9f2f2d3-8f71-4824-8ca4-b9a2e4a5812e",
+                    "account_id":"18ce53vw9tp",
+                    "entity_type":"campaign",
+                    "lineitem_tweet_id":null,
+                    "lineitem_id":null,
+                    "funding_instrument_id":null,"campaign_id":"5t1bd"
+                  },
+                  body=Campaign norif 7 has launched.,
+                  icon=ic_notification,
+                  title=Flightly
+                }*/
+                bundle.putString("title", (String)message.get("title"));
+                bundle.putString("message", (String)message.get("body"));
+                bundle.putString("data", (String)message.get("payload"));
+            }
           }
         } catch (Exception e) {
           System.out.println("GRAB "+e.toString());

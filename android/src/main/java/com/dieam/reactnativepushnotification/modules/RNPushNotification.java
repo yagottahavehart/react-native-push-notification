@@ -129,9 +129,15 @@ public class RNPushNotification extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void requestPermissions(String senderID) {
-      if (!RNPushNotificationRegistrationService.s_token.equalsIgnoreCase("")) {
-          RNPushNotificationRegistrationService.s_instance.sendRegistrationToken(RNPushNotificationRegistrationService.s_token);
+    public void requestPermissions(String token) {
+      boolean validToken = token != null && !token.equalsIgnoreCase("");
+
+      if (!RNPushNotificationRegistrationService.s_token.equalsIgnoreCase("") || validToken) {
+          if (!validToken) {
+            token = RNPushNotificationRegistrationService.s_token;
+          }
+
+          RNPushNotificationRegistrationService.s_instance.sendRegistrationToken(token);
       }
     }
 

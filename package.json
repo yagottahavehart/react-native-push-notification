@@ -1,11 +1,85 @@
 {
-  "name": "react-native-push-notification",
-  "version": "1.3.4",
-  "description": "React Native Local and Remote Notifications",
-  "main": "index",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "_args": [
+    [
+      {
+        "raw": "react-native-push-notification@github:alexanvl/react-native-push-notification#v1.3.4",
+        "scope": null,
+        "escapedName": "react-native-push-notification",
+        "name": "react-native-push-notification",
+        "rawSpec": "github:alexanvl/react-native-push-notification#v1.3.4",
+        "spec": "github:alexanvl/react-native-push-notification#v1.3.4",
+        "type": "hosted",
+        "hosted": {
+          "type": "github",
+          "ssh": "git@github.com:alexanvl/react-native-push-notification.git#v1.3.4",
+          "sshUrl": "git+ssh://git@github.com/alexanvl/react-native-push-notification.git#v1.3.4",
+          "httpsUrl": "git+https://github.com/alexanvl/react-native-push-notification.git#v1.3.4",
+          "gitUrl": "git://github.com/alexanvl/react-native-push-notification.git#v1.3.4",
+          "shortcut": "github:alexanvl/react-native-push-notification#v1.3.4",
+          "directUrl": "https://raw.githubusercontent.com/alexanvl/react-native-push-notification/v1.3.4/package.json"
+        }
+      },
+      "/Users/alewis/code/blackbird-mobile/Blackbird"
+    ]
+  ],
+  "_from": "alexanvl/react-native-push-notification#v1.3.4",
+  "_id": "react-native-push-notification@1.3.4",
+  "_inCache": true,
+  "_location": "/react-native-push-notification",
+  "_nodeVersion": "5.0.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/react-native-push-notification-1.0.8.tgz_1466694868861_0.08371045324020088"
   },
+  "_npmUser": {
+    "name": "zo0r",
+    "email": "z@zo0r.me"
+  },
+  "_npmVersion": "3.8.6",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "react-native-push-notification@github:alexanvl/react-native-push-notification#v1.3.4",
+    "scope": null,
+    "escapedName": "react-native-push-notification",
+    "name": "react-native-push-notification",
+    "rawSpec": "github:alexanvl/react-native-push-notification#v1.3.4",
+    "spec": "github:alexanvl/react-native-push-notification#v1.3.4",
+    "type": "hosted",
+    "hosted": {
+      "type": "github",
+      "ssh": "git@github.com:alexanvl/react-native-push-notification.git#v1.3.4",
+      "sshUrl": "git+ssh://git@github.com/alexanvl/react-native-push-notification.git#v1.3.4",
+      "httpsUrl": "git+https://github.com/alexanvl/react-native-push-notification.git#v1.3.4",
+      "gitUrl": "git://github.com/alexanvl/react-native-push-notification.git#v1.3.4",
+      "shortcut": "github:alexanvl/react-native-push-notification#v1.3.4",
+      "directUrl": "https://raw.githubusercontent.com/alexanvl/react-native-push-notification/v1.3.4/package.json"
+    }
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git://github.com/alexanvl/react-native-push-notification.git#fdf0e3845f886dc3da7d5b1a6889071338ef5587",
+  "_shasum": "5fd2fbd7408d8d1cecc75cb184a4fd3888709ec4",
+  "_shrinkwrap": null,
+  "_spec": "react-native-push-notification@github:alexanvl/react-native-push-notification#v1.3.4",
+  "_where": "/Users/alewis/code/blackbird-mobile/Blackbird",
+  "author": {
+    "name": "zo0r",
+    "email": "http://zo0r.me"
+  },
+  "bugs": {
+    "url": "https://github.com/zo0r/react-native-push-notification/issues"
+  },
+  "dependencies": {},
+  "description": "React Native Local and Remote Notifications",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "89c71302cc4520c55b2766ab9c5589ab7cea02c3",
+    "tarball": "https://registry.npmjs.org/react-native-push-notification/-/react-native-push-notification-1.0.8.tgz"
+  },
+  "gitHead": "2eafd1961273ca6a82ad4dd6514fbf1d1a829089",
+  "homepage": "https://github.com/zo0r/react-native-push-notification#readme",
   "keywords": [
     "react-component",
     "react-native",
@@ -16,51 +90,32 @@
     "apns",
     "gcm"
   ],
-  "bugs": {
-    "url": "https://github.com/zo0r/react-native-push-notification/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/alexanvl/react-native-push-notification.git"
-  },
-  "peerDependencies": {
-    "react-native": ">=0.29"
-  },
-  "rnpm": {
-    "android": {
-      "packageInstance": "new ReactNativePushNotificationPackage(this)"
-    }
-  },
-  "author": {
-    "name": "zo0r",
-    "email": "http://zo0r.me"
-  },
   "license": "MIT",
-  "gitHead": "2eafd1961273ca6a82ad4dd6514fbf1d1a829089",
-  "homepage": "https://github.com/zo0r/react-native-push-notification#readme",
-  "_id": "react-native-push-notification@1.0.8",
-  "_shasum": "89c71302cc4520c55b2766ab9c5589ab7cea02c3",
-  "_from": "react-native-push-notification@1.0.8",
-  "_npmVersion": "3.8.6",
-  "_nodeVersion": "5.0.0",
-  "_npmUser": {
-    "name": "zo0r",
-    "email": "z@zo0r.me"
-  },
-  "dist": {
-    "shasum": "89c71302cc4520c55b2766ab9c5589ab7cea02c3",
-    "tarball": "https://registry.npmjs.org/react-native-push-notification/-/react-native-push-notification-1.0.8.tgz"
-  },
+  "main": "index",
   "maintainers": [
     {
       "name": "zo0r",
       "email": "z@zo0r.me"
     }
   ],
-  "_npmOperationalInternal": {
-    "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/react-native-push-notification-1.0.8.tgz_1466694868861_0.08371045324020088"
+  "name": "react-native-push-notification",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "react-native": ">=0.29"
   },
-  "directories": {},
-  "_resolved": "https://registry.npmjs.org/react-native-push-notification/-/react-native-push-notification-1.0.8.tgz"
+  "readme": "# React Native Push Notifications\n[![npm version](https://badge.fury.io/js/react-native-push-notification.svg)](http://badge.fury.io/js/react-native-push-notification)\n[![npm downloads](https://img.shields.io/npm/dm/react-native-push-notification.svg?maxAge=2592000)](https://img.shields.io/npm/dm/react-native-push-notification.svg?maxAge=2592000)\n\nReact Native Local and Remote Notifications for iOS and Android\n\n## Installation\n`npm install react-native-push-notification`\n\n## iOS Installation\nThe component uses PushNotificationIOS for the iOS part.\n\n[Please see: PushNotificationIOS](https://facebook.github.io/react-native/docs/pushnotificationios.html#content)\n\n## Android Installation\n\n**NOTE: To use a specific `play-service-gcm` version, use in your `android/app/build.gradle` (change `8.1.0` for your version):**\n```gradle\n...\n\ndependencies {\n    ...\n\n    compile ('com.google.android.gms:play-services-gcm:8.1.0') {\n        force = true;\n    }\n}\n```\n\nIn your `AndroidManifest.xml`\n```xml\n    .....\n\n    <uses-permission android:name=\"android.permission.WAKE_LOCK\" />\n    <permission\n        android:name=\"${applicationId}.permission.C2D_MESSAGE\"\n        android:protectionLevel=\"signature\" />\n    <uses-permission android:name=\"${applicationId}.permission.C2D_MESSAGE\" />\n    <uses-permission android:name=\"android.permission.VIBRATE\" />\n\n    <application ....>\n        <receiver\n            android:name=\"com.google.android.gms.gcm.GcmReceiver\"\n            android:exported=\"true\"\n            android:permission=\"com.google.android.c2dm.permission.SEND\" >\n            <intent-filter>\n                <action android:name=\"com.google.android.c2dm.intent.RECEIVE\" />\n                <category android:name=\"${applicationId}\" />\n            </intent-filter>\n        </receiver>\n\n\t<receiver android:name=\"com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher\" />\n        <service android:name=\"com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService\"/>\n        <service\n            android:name=\"com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService\"\n            android:exported=\"false\" >\n            <intent-filter>\n                <action android:name=\"com.google.android.c2dm.intent.RECEIVE\" />\n            </intent-filter>\n        </service>\n\n        .....\n\n```\n\nIn `android/settings.gradle`\n```gradle\n...\n\ninclude ':react-native-push-notification'\nproject(':react-native-push-notification').projectDir = file('../node_modules/react-native-push-notification/android')\n```\n\nIn `android/app/build.gradle`\n\n```gradle\n...\n\ndependencies {\n    ...\n\n    compile project(':react-native-push-notification')\n}\n```\n\nRegister module (in `MainActivity.java`)\n\n```java\nimport android.content.Intent; // <--- Import Intent\nimport com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;  // <--- Import Package\n\npublic class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {\n\n  private ReactNativePushNotificationPackage mReactNativePushNotificationPackage; // <------ Add Package Variable\n\n    /**\n     * Returns the name of the main component registered from JavaScript.\n     * This is used to schedule rendering of the component.\n     */\n    @Override\n    protected String getMainComponentName() {\n        return \"YOUR_APP_NAME\";\n    }\n\n    /**\n     * Returns whether dev mode should be enabled.\n     * This enables e.g. the dev menu.\n     */\n    @Override\n    protected boolean getUseDeveloperSupport() {\n        return BuildConfig.DEBUG;\n    }\n\n   /**\n   * A list of packages used by the app. If the app uses additional views\n   * or modules besides the default ones, add more packages here.\n   */\n    @Override\n    protected List<ReactPackage> getPackages() {\n      mReactNativePushNotificationPackage = new ReactNativePushNotificationPackage(this); // <------ Initialize the Package\n      return Arrays.<ReactPackage>asList(\n        new MainReactPackage(),\n        new VectorIconsPackage(),\n        new FabricPackage(),\n        mReactNativePushNotificationPackage // <---- Add the Package\n      );\n    }\n\n    // Add onNewIntent\n    @Override\n    // in RN <= 0.27 you may need to use `protected void onNewIntent (Intent intent) {`\n    public void onNewIntent (Intent intent) {\n      super.onNewIntent(intent);\n\n      mReactNativePushNotificationPackage.newIntent(intent);\n    }\n\n    ....\n}\n```\n\n## Usage\n```javascript\nvar PushNotification = require('react-native-push-notification');\n\nPushNotification.configure({\n\n    // (optional) Called when Token is generated (iOS and Android)\n    onRegister: function(token) {\n        console.log( 'TOKEN:', token );\n    },\n\n    // (required) Called when a remote or local notification is opened or received\n    onNotification: function(notification) {\n        console.log( 'NOTIFICATION:', notification );\n    },\n\n    // ANDROID ONLY: (optional) GCM Sender ID.\n    senderID: \"YOUR GCM SENDER ID\",\n\n    // IOS ONLY (optional): default: all - Permissions to register.\n    permissions: {\n        alert: true,\n        badge: true,\n        sound: true\n    },\n\n    // Should the initial notification be popped automatically\n    // default: true\n    popInitialNotification: true,\n\n    /**\n      * IOS ONLY: (optional) default: true\n      * - Specified if permissions will requested or not,\n      * - if not, you must call PushNotificationsHandler.requestPermissions() later\n      */\n    requestPermissions: true,\n});\n```\n\n## Handling Notifications\nWhen any notification is opened or received the callback `onNotification` is called passing an object with the notification data.\n\nNotification object example:\n```javascript\n{\n    foreground: false, // BOOLEAN: If the notification was received in foreground or not\n    message: 'My Notification Message', // STRING: The notification message\n    data: {}, // OBJECT: The push data\n}\n```\n\n## Local and Schedule Notifications\n`PushNotification.localNotification(details: Object)`\n\n`PushNotification.localNotificationSchedule(details: Object)`\n\nEXAMPLE:\n```javascript\nPushNotification.localNotification({\n    /* Android Only Properties */\n    id: 0, // (optional) default: Autogenerated Unique ID\n    title: \"My Notification Title\", // (optional)\n    ticker: \"My Notification Ticker\", // (optional)\n    autoCancel: true, (optional) default: true\n    largeIcon: \"ic_launcher\", // (optional) default: \"ic_launcher\"\n    smallIcon: \"ic_notification\", // (optional) default: \"ic_notification\" with fallback for \"ic_launcher\"\n    bigText: \"My big text that will be shown when notification is expanded\", // (optional) default: \"message\" prop\n    subText: \"This is a subText\", // (optional) default: none\n    number: 10, // (optional) default: none (Cannot be zero)\n    color: \"red\", // (optional) default: system default\n\n    /* iOS and Android properties */\n    message: \"My Notification Message\" // (required)\n});\n\nPushNotification.localNotificationSchedule({\n\tmessage: \"My Notification Message\", // (required)\n\tdate: new Date(Date.now() + (60 * 1000)) // in 60 secs\n});\n```\n\n## Sending Notification Data From Server\nSame parameters as `PushNotification.localNotification()`\n\n## iOS Only Methods\n`PushNotification.checkPermissions(callback: Function)` Check permissions\n\n`PushNotification.setApplicationIconBadgeNumber(number: number)` set badge number\n\n`PushNotification.getApplicationIconBadgeNumber(callback: Function)` get badge number\n\n`PushNotification.abandonPermissions()` Abandon permissions\n\n### TODO\n- [X] Add `PushNotification.localNotificationSchedule()` Android support\n- [ ] Restore Android local notifications after reboot\n\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/alexanvl/react-native-push-notification.git"
+  },
+  "rnpm": {
+    "android": {
+      "packageInstance": "new ReactNativePushNotificationPackage(this)"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.3.4"
 }

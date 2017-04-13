@@ -1,5 +1,7 @@
 package com.dieam.reactnativepushnotification.modules;
 
+import com.localytics.android.Localytics;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -19,13 +21,15 @@ public class RNPushNotificationRegistrationService extends FirebaseInstanceIdSer
     public void onTokenRefresh() {
         String refreshedToken = s_token = FirebaseInstanceId.getInstance().getToken();
         System.out.println("GRAB onTokenRefresh "+refreshedToken);
+
         sendRegistrationToken(refreshedToken);
     }
 
     public void sendRegistrationToken(String token) {
         Intent intent = new Intent("RNPushNotificationRegisteredToken");
         intent.putExtra("token", token);
-        //System.out.println("GRAB sendRegistrationToken "+intent.toString());
+        System.out.println("GRAB sendRegistrationToken "+token);
+        Localytics.setPushRegistrationId(token);
         sendBroadcast(intent);
     }
 
