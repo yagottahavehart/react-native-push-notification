@@ -17,7 +17,6 @@ import java.util.List;
 public class ReactNativePushNotificationPackage implements ReactPackage {
     RNPushNotification mRNPushNotification;
 
-    @Override
     public List<NativeModule> createNativeModules(
             ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
@@ -28,12 +27,10 @@ public class ReactNativePushNotificationPackage implements ReactPackage {
         return modules;
     }
 
-    @Override
     public List<Class<? extends JavaScriptModule>> createJSModules() {
         return Arrays.asList();
     }
 
-    @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return new ArrayList<>();
     }
