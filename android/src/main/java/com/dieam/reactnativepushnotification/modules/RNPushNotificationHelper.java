@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.NotificationChannel;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -30,8 +31,29 @@ public class RNPushNotificationHelper {
     private static HashMap<String, JSONObject> s_groupMap = new HashMap<String, JSONObject>();
     private static int s_id = 0;
 
+    private static String channelId = "com.flightly.mobile.notifications";
+    private static String channelDescription = "Flightly Ads Notifications";
+    private static String channelName = "Flightly Ads Notifications";
+
     public RNPushNotificationHelper(Application context) {
         mContext = context;
+
+        // Since android Oreo notification channel is needed.
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager notificationManager =
+          (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
+            if (notificationChannel == null) {
+
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                notificationChannel = new NotificationChannel(channelId, channelName, importance);
+                notificationChannel.setDescription(channelDescription);
+                notificationChannel.setLightColor(Color.GREEN);
+                notificationChannel.enableVibration(true);
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
     }
 
     public static void clearNotificationStack(String adAccountId) {
@@ -158,13 +180,14 @@ System.out.println("GRAB account id "+groupStr);
           groupMsgs.put(msgStr);
           groupObj.put("messages", groupMsgs);
 
-          notification = new NotificationCompat.Builder(mContext)
-                    .setContentTitle(title)
-                    .setTicker(bundle.getString("ticker"))
-                    .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setAutoCancel(bundle.getBoolean("autoCancel", true));
-                    //.setGroup(groupStr);
+
+          notification = new NotificationCompat.Builder(mContext, channelId)
+            .setContentTitle(title)
+            .setTicker(bundle.getString("ticker"))
+            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(bundle.getBoolean("autoCancel", true));
+            //.setGroup(groupStr);
 
           notificationID = groupObj.getInt("id");
 
